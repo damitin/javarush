@@ -4,6 +4,8 @@ package com.javarush.task.task21.task2101;
 Определяем адрес сети
 */
 
+import java.util.Arrays;
+
 public class Solution {
     public static void main(String[] args) {
         byte[] ip = new byte[]{(byte) 192, (byte) 168, 1, 2};
@@ -15,9 +17,15 @@ public class Solution {
     }
 
     public static byte[] getNetAddress(byte[] ip, byte[] mask) {
-        return new byte[4];
+        byte[] netAddress = new byte[4];
+        for (int i = 0; i < 4; i++) {
+            netAddress[i] = (byte) (ip[i] & mask[i]);
+        }
+        return netAddress;
     }
 
     public static void print(byte[] bytes) {
+        for (byte b : bytes) System.out.print(Integer.toBinaryString(b | 0b11111111_11111111_11111111_00000000).substring(24) + " ");
+        System.out.println();
     }
 }
