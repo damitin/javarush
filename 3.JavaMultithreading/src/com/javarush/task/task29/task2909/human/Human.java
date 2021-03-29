@@ -5,11 +5,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class Human implements Alive {
-    private List<Human> children = new ArrayList<>();
     public static int nextId = 0;
     private int id;
     protected int age;
     protected String name;
+
+    private List<Human> children = new ArrayList<>();
 
     protected int[] size;
 
@@ -32,18 +33,6 @@ public class Human implements Alive {
         this.age = age;
         this.id = nextId;
         nextId++;
-    }
-
-    public List<Human> getChildren() {
-        return Collections.unmodifiableList(children);
-    }
-
-    public void addChild(Human human) {
-        children.add(human);
-    }
-
-    public void removeChild(Human human) {
-        children.remove(human);
     }
 
     public int getAge() {
@@ -71,6 +60,18 @@ public class Human implements Alive {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public List<Human> getChildren() {
+        return Collections.unmodifiableList(children);
+    }
+
+    public void addChild(Human child) {
+        children.add(child);
+    }
+
+    public void removeChild(Human child) {
+        children.remove(child);
     }
 
     public void printSize() {
