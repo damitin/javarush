@@ -26,5 +26,10 @@ public class Server {
         public Handler(Socket socket) {
             this.socket = socket;
         }
+
+        @Override
+        public void run() {
+
+        }
     }
 }

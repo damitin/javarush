@@ -9,8 +9,8 @@ import java.net.SocketAddress;
 
 public class Connection implements Closeable {
     private final Socket socket;
-    private final ObjectOutputStream out;
     private final ObjectInputStream in;
+    private final ObjectOutputStream out;
 
     public Connection(Socket socket) throws IOException {
         this.socket = socket;
@@ -34,9 +34,11 @@ public class Connection implements Closeable {
         return socket.getRemoteSocketAddress();
     }
 
+    @Override
     public void close() throws IOException {
         in.close();
         out.close();
         socket.close();
     }
 }
+
