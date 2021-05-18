@@ -27,6 +27,44 @@ public class Client {
     }
 
     public class SocketThread extends Thread {
+        protected void clientHandshake() throws IOException, ClassNotFoundException {
+            while (true) {
+                Message message = connection.receive();
+
+                if (message.getType() == MessageType.NAME_REQUEST) { // Сервер запросил имя пользователя
+                    // Запрашиваем ввод имени с консоли
+                    String name = getUserName();
+                    // Отправляем имя на сервер
+                    connection.send(new Message(MessageType.USER_NAME, name));
+
+                } else if (message.getType() == MessageType.NAME_ACCEPTED) { // Сервер принял имя пользователя
+                    // Сообщаем главному потоку, что он может продолжить работу
+                    notifyConnectionStatusChanged(true);
+                    return;
+
+                } else {
+                    throw new IOException("Unexpected MessageType");
+                }
+            }
+        }
+
+        protected void clientMainLoop() throws IOException, ClassNotFoundException {
+            // Цикл обработки сообщений сервера
+            while (true) {
+                Message message = connection.receive();
+
+                if (message.getType() == MessageType.TEXT) { // Сервер прислал сообщение с текстом
+                    processIncomingMessage(message.getData());
+                } else if (MessageType.USER_ADDED == message.getType()) {
+                    informAboutAddingNewUser(message.getData());
+                } else if (MessageType.USER_REMOVED == message.getType()) {
+                    informAboutDeletingNewUser(message.getData());
+                } else {
+                    throw new IOException("Unexpected MessageType");
+                }
+            }
+        }
+
         protected void processIncomingMessage(String message) {
             // Выводим текст сообщения в консоль
             ConsoleHelper.writeMessage(message);
