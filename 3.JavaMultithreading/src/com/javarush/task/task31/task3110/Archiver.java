@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 public class Archiver {
     public static void main(String[] args) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
+        
         System.out.println("Введите полный путь файла архива:");
         ZipFileManager zipFileManager = new ZipFileManager(Paths.get(reader.readLine()));
 
